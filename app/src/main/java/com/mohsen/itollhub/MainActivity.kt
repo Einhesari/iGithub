@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.mohsen.itollhub.designsystem.theme.ItollHubTheme
 
 
@@ -13,7 +17,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ItollHubTheme {
-
+                val navController = rememberNavController()
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    ItollHubNavHost(
+                        navController = navController,
+                    )
+                }
             }
         }
     }

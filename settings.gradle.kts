@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "iTollHub"
 include(":app")
 include(":core:designsystem")
+include(":core:navigation")
