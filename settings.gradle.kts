@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "iTollHub"
 include(":app")
- 
+include(":core:designsystem")
