@@ -22,7 +22,7 @@ data class NetworkUser(
     @SerialName("events_url") val eventsUrl: String,
     @SerialName("received_events_url") val receivedEventsUrl: String,
     @SerialName("type") val type: String,
-    @SerialName("score") val score: Int,
+    @SerialName("score") val score: Float,
 )
 
 @Serializable

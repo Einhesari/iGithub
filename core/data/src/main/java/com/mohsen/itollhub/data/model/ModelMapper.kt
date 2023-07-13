@@ -5,6 +5,8 @@ import com.mohsen.itollhub.network.model.NetworkUser
 
 fun NetworkUser.mapToUser() = User(
     userName = login,
+    id = id,
     score = score,
-    type = type
+    type = type,
+    avatarUrl = avatarUrl
 )

@@ -44,7 +44,10 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
     implementation(libs.lifecycle.viewmodel)
+    implementation(libs.coil)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt)
