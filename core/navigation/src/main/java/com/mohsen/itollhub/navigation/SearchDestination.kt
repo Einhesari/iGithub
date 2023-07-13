@@ -9,7 +9,7 @@ object SearchDestination : Destination {
 
 }
 
-fun NavGraphBuilder.searchDestination(navigateTo: (Int) -> Unit) {
+fun NavGraphBuilder.searchDestination(navigateTo: (String) -> Unit) {
     composable(route = SearchDestination.route) {
         SearchRoute(onItemClicked = navigateTo)
     }
