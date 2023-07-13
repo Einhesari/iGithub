@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mohsen.itollhub.designsystem.LoadingScreen
 import com.mohsen.itollhub.model.UserDetail
 
 @Composable
@@ -49,6 +50,8 @@ fun UserDetailRoute(userName: String, viewModel: UserDetailViewModel = hiltViewM
     }
     viewState.user?.let {
         UserDetailCard(it)
+    } ?: run {
+        LoadingScreen(description = viewState.description)
     }
 }
 
