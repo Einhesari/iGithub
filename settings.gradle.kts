@@ -17,3 +17,7 @@ rootProject.name = "iTollHub"
 include(":app")
 include(":core:designsystem")
 include(":core:navigation")
+include(":feature:search")
+include(":core:network")
+include(":core:data")
+include(":core:model")

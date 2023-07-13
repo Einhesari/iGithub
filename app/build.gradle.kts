@@ -48,6 +48,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
+    implementation(project(":feature:search"))
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

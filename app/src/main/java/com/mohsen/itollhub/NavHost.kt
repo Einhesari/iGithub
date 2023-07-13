@@ -3,7 +3,8 @@ package com.mohsen.itollhub
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.mohsen.itollhub.navigation.DummyDestination
+import com.mohsen.itollhub.navigation.SearchDestination
+import com.mohsen.itollhub.navigation.searchDestination
 
 @Composable
 fun ItollHubNavHost(
@@ -11,7 +12,10 @@ fun ItollHubNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = DummyDestination.route,
+        startDestination = SearchDestination.route,
     ) {
+        searchDestination {
+
+        }
     }
 }
