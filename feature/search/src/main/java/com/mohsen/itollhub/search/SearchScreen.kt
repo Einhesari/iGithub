@@ -91,7 +91,7 @@ private fun SearchScreen(
                         onUserCardClicked = onUserCardClicked
                     )
                 } else {
-                    LoadingScreen(description = description)
+                    LoadingScreen(description = description, isLoading)
                 }
             }
         }

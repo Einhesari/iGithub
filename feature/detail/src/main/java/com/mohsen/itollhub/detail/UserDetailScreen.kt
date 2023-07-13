@@ -51,7 +51,7 @@ fun UserDetailRoute(userName: String, viewModel: UserDetailViewModel = hiltViewM
     viewState.user?.let {
         UserDetailCard(it)
     } ?: run {
-        LoadingScreen(description = viewState.description)
+        LoadingScreen(viewState.description, viewState.isLoading)
     }
 }
 
