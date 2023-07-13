@@ -2,13 +2,12 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.mohsen.itollhub.network"
+    namespace = "com.mohsen.itollhub.data"
     compileSdk = 33
 
     defaultConfig {
@@ -37,10 +36,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.kotlinx.serialization.converter)
-    implementation(libs.okhttp.logging.interceptor)
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 }

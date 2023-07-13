@@ -19,6 +19,7 @@ kotlinx-serialization-plugin = "1.8.21"
 retrofit = "2.9.0"
 retrofit-kotlinx-serialization-converter = "0.8.0"
 okhttp-logging-interceptor = "4.11.0"
+org-jetbrains-kotlin-jvm = "1.8.20"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -52,6 +53,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 
 [bundles]
 
