@@ -56,6 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mohsen.itollhub.designsystem.LoadingScreen
 import com.mohsen.itollhub.model.User
 
 @Composable
@@ -90,7 +91,7 @@ private fun SearchScreen(
                         onUserCardClicked = onUserCardClicked
                     )
                 } else {
-                    NoContentView(description = description)
+                    LoadingScreen(description = description)
                 }
             }
         }
@@ -202,26 +203,6 @@ private fun UserItem(
                 textAlign = TextAlign.Center,
             )
         }
-    }
-}
-
-@Composable
-fun NoContentView(description: String) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .height(150.dp)
-                .width(150.dp),
-            painter = painterResource(id = R.drawable.github),
-            colorFilter = ColorFilter.tint(Color.Gray),
-            contentDescription = stringResource(id = R.string.github_icon_desc)
-        )
-        Text(text = description, color = Color.Gray)
     }
 }
 
