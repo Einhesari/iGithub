@@ -41,13 +41,14 @@ android {
 }
 
 dependencies {
-    api(libs.compose.ui.material)
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
     api(libs.compose.ui.ui)
-    api(libs.compose.ui.tooling.preview)
+    api(libs.compose.foundation)
     api(libs.androidx.activity.compose)
+    api(libs.compose.ui.material)
+    api(libs.compose.ui.tooling.preview)
     debugApi(libs.compose.ui.tooling)
     androidTestApi(libs.compose.ui.test)
     androidTestApi(libs.compose.ui.test.manifest)

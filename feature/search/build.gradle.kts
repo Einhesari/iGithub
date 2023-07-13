@@ -1,23 +1,20 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.mohsen.itollhub"
+    namespace = "com.mohsen.itollhub.search"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.mohsen.itollhub"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -47,18 +44,12 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:search"))
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 }
-
 kapt {
     correctErrorTypes = true
 }

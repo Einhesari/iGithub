@@ -35,7 +35,6 @@ fun ItollHubTheme(
     } else {
         LightColorPalette
     }
-
     MaterialTheme(
         colors = colors,
         typography = Typography,
