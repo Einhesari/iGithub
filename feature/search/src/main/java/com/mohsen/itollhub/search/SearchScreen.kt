@@ -37,7 +37,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,10 +59,10 @@ import coil.request.ImageRequest
 import com.mohsen.itollhub.model.User
 
 @Composable
-fun SearchRoute(onItemClicked: (Int) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
+fun SearchRoute(onItemClicked: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
     val scaffoldState = rememberScaffoldState()
     val viewState by viewModel.state.collectAsStateWithLifecycle()
-    SearchScreen(scaffoldState = scaffoldState, viewState) {
+    SearchScreen(scaffoldState = scaffoldState, viewState, onUserCardClicked = onItemClicked) {
         viewModel.searchUser(it)
     }
 }
@@ -73,6 +72,7 @@ private fun SearchScreen(
     scaffoldState: ScaffoldState,
     viewState: SearchScreenState,
     modifier: Modifier = Modifier,
+    onUserCardClicked: (String) -> Unit,
     onSearchButtonClicked: (String) -> Unit
 ) {
     Scaffold(
@@ -84,7 +84,11 @@ private fun SearchScreen(
             SearchBar(onSearchButtonClicked)
             with(viewState) {
                 if (users.isNotEmpty()) {
-                    UsersList(users = users, listState = rememberLazyGridState())
+                    UsersList(
+                        users = users,
+                        listState = rememberLazyGridState(),
+                        onUserCardClicked = onUserCardClicked
+                    )
                 } else {
                     NoContentView(description = description)
                 }
@@ -129,7 +133,11 @@ private fun SearchBar(onSearchButtonClicked: (String) -> Unit) {
 }
 
 @Composable
-private fun UsersList(users: List<User>, listState: LazyGridState, modifier: Modifier = Modifier) {
+private fun UsersList(
+    users: List<User>, listState: LazyGridState,
+    onUserCardClicked: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         modifier = modifier,
         state = listState,
@@ -139,16 +147,22 @@ private fun UsersList(users: List<User>, listState: LazyGridState, modifier: Mod
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(users, key = { user -> user.id }) {
-            UserItem(user = it)
+            UserItem(user = it, onUserCardClicked = onUserCardClicked)
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun UserItem(user: User, modifier: Modifier = Modifier) {
+private fun UserItem(
+    user: User,
+    onUserCardClicked: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = modifier.clickable {},
+        modifier = modifier.clickable {
+            onUserCardClicked(user.userName)
+        },
         elevation = 4.dp,
         shape = RoundedCornerShape(4.dp),
     ) {
@@ -227,6 +241,7 @@ fun UserItemPreview() {
             1.0f,
             "User",
             "https://avatars.githubusercontent.com/u/50930?v=4"
-        )
+        ),
+        onUserCardClicked = {}
     )
 }
