@@ -49,6 +49,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -124,8 +125,8 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     onSearchButtonClicked: (String) -> Unit
 ) {
-    var searchQuery by remember {
-        mutableStateOf(TextFieldValue(""))
+    var searchQuery by rememberSaveable {
+        mutableStateOf("")
     }
     val keyboardController = LocalSoftwareKeyboardController.current
     Row(
@@ -153,15 +154,15 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onDone = {
                     keyboardController?.hide()
-                    onSearchButtonClicked(searchQuery.text)
+                    onSearchButtonClicked(searchQuery)
                 }),
             leadingIcon = {
                 AnimatedVisibility(
-                    visible = searchQuery.text.isNotEmpty(),
+                    visible = searchQuery.isNotEmpty(),
                 ) {
                     Icon(
                         modifier = Modifier.clickable {
-                            searchQuery = TextFieldValue("")
+                            searchQuery = ""
                         },
                         imageVector = Icons.Default.Clear,
                         contentDescription = stringResource(id = R.string.search_desc)
@@ -173,7 +174,7 @@ fun SearchBar(
                     modifier = Modifier.clickable(enabled = !isLoading) {
                         keyboardController?.hide()
                         onSearchButtonClicked(
-                            searchQuery.text
+                            searchQuery
                         )
                     },
                     imageVector = Icons.Default.Search,
