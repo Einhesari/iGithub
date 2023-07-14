@@ -27,6 +27,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,14 +49,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,6 +118,7 @@ fun SearchScreen(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     isLoading: Boolean,
@@ -122,25 +128,40 @@ fun SearchBar(
     var searchQuery by remember {
         mutableStateOf(TextFieldValue(""))
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
     Row(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TextField(value = searchQuery, onValueChange = {
-            searchQuery = it
-        }, placeholder = {
-            Text(
-                text = stringResource(id = R.string.search_hint), fontSize = 12.sp
-            )
-        }, modifier = Modifier
-            .weight(1f)
-            .padding(horizontal = 8.dp)
+        TextField(
+            singleLine = true,
+            value = searchQuery,
+            onValueChange = {
+                searchQuery = it
+            },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.search_hint), fontSize = 12.sp
+                )
+            },
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    onSearchButtonClicked(searchQuery.text)
+                })
         )
         Button(
             enabled = !isLoading,
-            onClick = { onSearchButtonClicked(searchQuery.text) },
+            onClick = {
+                keyboardController?.hide()
+                onSearchButtonClicked(searchQuery.text)
+            },
             modifier = Modifier.height(IntrinsicSize.Max)
         ) {
             Image(
