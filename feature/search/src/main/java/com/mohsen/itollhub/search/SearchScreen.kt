@@ -5,13 +5,11 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,13 +27,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,18 +55,15 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -143,7 +142,8 @@ fun SearchBar(
             },
             placeholder = {
                 Text(
-                    text = stringResource(id = R.string.search_hint), fontSize = 12.sp
+                    text = stringResource(id = R.string.search_hint),
+                    style = MaterialTheme.typography.bodySmall
                 )
             },
             modifier = Modifier
@@ -154,22 +154,33 @@ fun SearchBar(
                 onDone = {
                     keyboardController?.hide()
                     onSearchButtonClicked(searchQuery.text)
-                })
-        )
-        Button(
-            enabled = !isLoading,
-            onClick = {
-                keyboardController?.hide()
-                onSearchButtonClicked(searchQuery.text)
+                }),
+            leadingIcon = {
+                AnimatedVisibility(
+                    visible = searchQuery.text.isNotEmpty(),
+                ) {
+                    Icon(
+                        modifier = Modifier.clickable {
+                            searchQuery = TextFieldValue("")
+                        },
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(id = R.string.search_desc)
+                    )
+                }
             },
-            modifier = Modifier.height(IntrinsicSize.Max)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.baseline_search_24),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
-                contentDescription = stringResource(id = R.string.search_desc)
-            )
-        }
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.clickable(enabled = !isLoading) {
+                        keyboardController?.hide()
+                        onSearchButtonClicked(
+                            searchQuery.text
+                        )
+                    },
+                    imageVector = Icons.Default.Search,
+                    contentDescription = stringResource(id = R.string.search_desc)
+                )
+            }
+        )
     }
 }
 
@@ -267,9 +278,8 @@ fun GoToTopButton(visibility: Boolean, listState: LazyGridState) {
                     listState.animateScrollToItem(0)
                 }
             }) {
-            Image(
-                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_up_24),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.go_to_top)
             )
         }

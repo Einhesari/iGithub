@@ -1,10 +1,8 @@
 package com.mohsen.itollhub.detail
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -19,10 +17,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,11 +36,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -95,22 +97,22 @@ fun UserDetailCard(user: UserDetail, modifier: Modifier = Modifier) {
                 UserDetailRow(
                     key = R.string.name,
                     value = user.name,
-                    iconRes = R.drawable.baseline_person_24
+                    imageVector = Icons.Default.Person
                 )
                 UserDetailRow(
                     key = R.string.bio,
                     value = user.bio,
-                    iconRes = R.drawable.baseline_menu_book_24
+                    imageVector = ImageVector.vectorResource(id = R.drawable.baseline_menu_book_24)
                 )
                 UserDetailRow(
                     key = R.string.company,
                     value = user.company,
-                    iconRes = R.drawable.baseline_work_24
+                    imageVector = ImageVector.vectorResource(id = R.drawable.baseline_work_24)
                 )
                 UserDetailRow(
                     key = R.string.location,
                     value = user.location,
-                    iconRes = R.drawable.baseline_location_on_24
+                    imageVector = Icons.Default.LocationOn
                 )
             }
         }
@@ -158,16 +160,15 @@ fun UserDetailCard(user: UserDetail, modifier: Modifier = Modifier) {
 fun UserDetailRow(
     @StringRes key: Int,
     value: String,
-    @DrawableRes iconRes: Int,
+    imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.padding(top = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painterResource(id = iconRes),
-            colorFilter = ColorFilter.tint(Color.Gray),
+        Icon(
+            imageVector = imageVector,
             contentDescription = ""
         )
         Text(
