@@ -1,5 +1,8 @@
 package com.mohsen.itollhub.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -28,15 +32,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +66,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mohsen.itollhub.designsystem.LoadingScreen
 import com.mohsen.itollhub.model.User
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,9 +76,24 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
+    val lazyGridState = rememberLazyGridState()
+
+    val showGoToTopButton by remember {
+        derivedStateOf {
+            lazyGridState.firstVisibleItemIndex > 4
+        }
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
+        floatingActionButton = {
+            GoToTopButton(
+                visibility = showGoToTopButton,
+                listState = lazyGridState
+            )
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             SearchBar { viewModel.searchUser(it) }
@@ -77,7 +101,7 @@ fun SearchScreen(
                 if (users.isNotEmpty()) {
                     UsersList(
                         users = users,
-                        listState = rememberLazyGridState(),
+                        listState = lazyGridState,
                         onUserCardClicked = onItemClicked
                     )
                 } else {
@@ -90,7 +114,7 @@ fun SearchScreen(
 }
 
 @Composable
-private fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (String) -> Unit) {
+fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (String) -> Unit) {
     var searchQuery by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -124,7 +148,7 @@ private fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (Str
 }
 
 @Composable
-private fun UsersList(
+fun UsersList(
     users: List<User>, listState: LazyGridState,
     modifier: Modifier = Modifier,
     onUserCardClicked: (String) -> Unit,
@@ -145,7 +169,7 @@ private fun UsersList(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun UserItem(
+fun UserItem(
     user: User,
     modifier: Modifier = Modifier,
     onUserCardClicked: (String) -> Unit
@@ -192,6 +216,35 @@ private fun UserItem(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+@Composable
+fun GoToTopButton(visibility: Boolean, listState: LazyGridState) {
+    val coroutineScope = rememberCoroutineScope()
+    AnimatedVisibility(
+        visible = visibility,
+        enter = slideInVertically(
+            initialOffsetY = { fullHeight -> fullHeight }
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = { fullHeight -> fullHeight * 2 }
+        )
+    ) {
+        FloatingActionButton(containerColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .navigationBarsPadding(),
+            onClick = {
+                coroutineScope.launch {
+                    listState.animateScrollToItem(0)
+                }
+            }) {
+            Image(
+                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_up_24),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+                contentDescription = stringResource(id = R.string.go_to_top)
             )
         }
     }

@@ -75,7 +75,7 @@ fun UserDetailScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun UserDetailCard(user: UserDetail, modifier: Modifier = Modifier) {
+fun UserDetailCard(user: UserDetail, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
@@ -186,7 +186,7 @@ fun UserDetailRow(
 
 @Preview
 @Composable
-fun UserDetailCardPreview() {
+private fun UserDetailCardPreview() {
     UserDetailCard(
         UserDetail(
             userName = "Einhesari",
