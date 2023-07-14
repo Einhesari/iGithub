@@ -24,16 +24,12 @@ class NetworkModule {
     @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
-    fun provideNetworkApi(networkJson: Json, noInternetInterceptor: NoInternetInterceptor): Api {
+    fun provideNetworkApi(
+        networkJson: Json,
+        okHttpClient: OkHttpClient
+    ): Api {
         return Retrofit.Builder().baseUrl(baseUrl)
-            .client(
-                OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        setLevel(HttpLoggingInterceptor.Level.BODY)
-                    })
-                    .addInterceptor(noInternetInterceptor)
-                    .build()
-            )
+            .client(okHttpClient)
             .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
             .build()
             .create(Api::class.java)
@@ -47,4 +43,13 @@ class NetworkModule {
         explicitNulls = false
     }
 
+    @Provides
+    @Singleton
+    fun provideOkhttpClient(noInternetInterceptor: NoInternetInterceptor) =
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
+            .addInterceptor(noInternetInterceptor)
+            .build()
 }

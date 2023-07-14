@@ -2,8 +2,6 @@ package com.mohsen.itollhub.network
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
-import androidx.annotation.RequiresApi
 import javax.inject.Inject
 
 class ConnectionChecker @Inject constructor(private val connectivityManager: ConnectivityManager) {
