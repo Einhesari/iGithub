@@ -12,19 +12,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Purple200,
-    secondary = Teal200
+    primary = RoseBud,
+    onPrimary = IndianTan,
+    primaryContainer = ReddishBrown,
+    onPrimaryContainer = PeachSchnapps,
+    secondary = Melrose,
+    onSecondary = CatalinaBlue,
+    secondaryContainer = Blueberry,
+    onSecondaryContainer = HawkesBlue,
+    background = Oil,
+    onBackground = LavenderPinocchio
 )
 
 private val LightColorPalette = lightColorScheme(
-    primary = Purple500,
-    secondary = Teal200,
-    background = Color.LightGray,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
+    primary = BrownishRed,
+    onPrimary = White,
+    primaryContainer = PeachSchnapps,
+    onPrimaryContainer = Bean,
+    secondary = DuskyBlue,
+    onSecondary = White,
+    secondaryContainer = HawkesBlue,
+    onSecondaryContainer = DarkBlue,
+    background = MilkWhite,
+    onBackground = Gondola
+
 )
 
 @Composable
