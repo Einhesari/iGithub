@@ -5,6 +5,11 @@ import com.mohsen.itollhub.model.UserDetail
 
 
 interface UserRepository {
-    suspend fun searchUser(searchQuery: String): Result<List<User>>
+    suspend fun searchUser(
+        searchQuery: String,
+        page: Int = 1,
+        perPage: Int = 100
+    ): Result<List<User>>
+
     suspend fun getUserDetail(userName: String): Result<UserDetail>
 }

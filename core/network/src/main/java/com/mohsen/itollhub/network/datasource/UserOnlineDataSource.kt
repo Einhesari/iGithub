@@ -7,9 +7,10 @@ import javax.inject.Inject
 
 
 class UserOnlineDataSource @Inject constructor(private val api: Api) {
-    suspend fun searchUser(query: String): Result<SearchApiResult> = safeApiCall {
-        api.searchUser(query)
-    }
+    suspend fun searchUser(query: String, page: Int, perPage: Int): Result<SearchApiResult> =
+        safeApiCall {
+            api.searchUser(query, page, perPage)
+        }
 
     suspend fun getUserDetail(userName: String): Result<NetworkUserDetail> = safeApiCall {
         api.getUserDetail(userName)
