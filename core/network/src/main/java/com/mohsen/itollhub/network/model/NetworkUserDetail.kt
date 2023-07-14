@@ -27,7 +27,7 @@ data class NetworkUserDetail(
     @SerialName("blog") val blog: String?,
     @SerialName("location") val location: String?,
     @SerialName("email") val email: String?,
-    @SerialName("hireable") val hireable: String?,
+    @SerialName("hireable") val hireable: Boolean?,
     @SerialName("bio") val bio: String?,
     @SerialName("twitter_username") val twitter_username: String?,
     @SerialName("public_repos") val publicRepos: Int,
