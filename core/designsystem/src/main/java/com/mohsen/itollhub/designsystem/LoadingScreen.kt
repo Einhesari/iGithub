@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,11 +34,12 @@ fun LoadingScreen(description: String, isLoading: Boolean) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val color = remember { Animatable(Color.Gray) }
+        val primaryColor = MaterialTheme.colorScheme.primary
         LaunchedEffect(isLoading) {
             if (isLoading)
                 color.animateTo(
-                    Color.Black, animationSpec = infiniteRepeatable(
-                        animation = tween(1000, easing = FastOutSlowInEasing),
+                    primaryColor, animationSpec = infiniteRepeatable(
+                        animation = tween(500, easing = FastOutSlowInEasing),
                         repeatMode = RepeatMode.Reverse
                     )
                 )
