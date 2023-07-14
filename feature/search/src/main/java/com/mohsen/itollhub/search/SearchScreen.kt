@@ -96,7 +96,7 @@ fun SearchScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            SearchBar { viewModel.searchUser(it) }
+            SearchBar(viewState.isLoading) { viewModel.searchUser(it) }
             with(viewState) {
                 if (users.isNotEmpty()) {
                     UsersList(
@@ -114,7 +114,11 @@ fun SearchScreen(
 }
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (String) -> Unit) {
+fun SearchBar(
+    isLoading: Boolean,
+    modifier: Modifier = Modifier,
+    onSearchButtonClicked: (String) -> Unit
+) {
     var searchQuery by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -135,6 +139,7 @@ fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (String) -> 
             .padding(horizontal = 8.dp)
         )
         Button(
+            enabled = !isLoading,
             onClick = { onSearchButtonClicked(searchQuery.text) },
             modifier = Modifier.height(IntrinsicSize.Max)
         ) {
@@ -253,7 +258,7 @@ fun GoToTopButton(visibility: Boolean, listState: LazyGridState) {
 @Composable
 @Preview
 private fun SearchBarPreview() {
-    SearchBar {}
+    SearchBar(false) {}
 }
 
 @Preview
