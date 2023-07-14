@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"iTollHub"</string>
+    <string name="search_hint">Search through usernames and emails</string>
+    <string name="user_avatar_desc">user\'s avatar</string>
+    <string name="search_desc">search</string>
+    <string name="go_to_top">Navigate to top</string>
+</resources>
