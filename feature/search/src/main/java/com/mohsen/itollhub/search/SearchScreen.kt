@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -124,6 +125,7 @@ private fun SearchBar(onSearchButtonClicked: (String) -> Unit) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_search_24),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
                 contentDescription = stringResource(id = R.string.search_desc)
             )
         }
@@ -179,7 +181,8 @@ private fun UserItem(
                     .height(120.dp)
                     .padding(top = 16.dp, start = 8.dp, end = 8.dp)
                     .border(
-                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground), CircleShape
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground),
+                        CircleShape
                     )
                     .clip(CircleShape),
             )
