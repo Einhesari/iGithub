@@ -20,8 +20,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,16 +46,24 @@ import coil.request.ImageRequest
 import com.mohsen.itollhub.designsystem.LoadingScreen
 import com.mohsen.itollhub.model.UserDetail
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserDetailRoute(userName: String, viewModel: UserDetailViewModel = hiltViewModel()) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(userName) {
         viewModel.getUserDetail(userName)
     }
-    viewState.user?.let {
-        UserDetailCard(it)
-    } ?: run {
-        LoadingScreen(viewState.description, viewState.isLoading)
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
+    ) {
+        Column(modifier = Modifier.padding(it)) {
+            viewState.user?.let {
+                UserDetailCard(it)
+            } ?: run {
+                LoadingScreen(viewState.description, viewState.isLoading)
+            }
+        }
     }
 }
 

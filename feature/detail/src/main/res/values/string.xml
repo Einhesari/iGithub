@@ -4,4 +4,5 @@
     <string name="bio">Bio</string>
     <string name="location">Location</string>
     <string name="company">Company</string>
+    <string name="app_name">iTollHub</string>
 </resources>
