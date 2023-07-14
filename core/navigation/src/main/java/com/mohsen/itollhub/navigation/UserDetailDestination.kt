@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.mohsen.itollhub.detail.UserDetailRoute
+import com.mohsen.itollhub.detail.UserDetailScreen
 
 object UserDetailDestination : Destination {
     override val route: String = "userDetail"
@@ -21,6 +21,6 @@ fun NavGraphBuilder.userDetailDestination() {
         arguments = UserDetailDestination.arguments
     ) {
         val userName = it.arguments?.getString(UserDetailDestination.argKey) ?: ""
-        UserDetailRoute(userName = userName)
+        UserDetailScreen(userName = userName)
     }
 }

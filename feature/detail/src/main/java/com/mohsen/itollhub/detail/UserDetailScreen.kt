@@ -1,5 +1,7 @@
 package com.mohsen.itollhub.detail
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -48,13 +50,17 @@ import com.mohsen.itollhub.model.UserDetail
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserDetailRoute(userName: String, viewModel: UserDetailViewModel = hiltViewModel()) {
+fun UserDetailScreen(
+    userName: String,
+    modifier: Modifier = Modifier,
+    viewModel: UserDetailViewModel = hiltViewModel()
+) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(userName) {
         viewModel.getUserDetail(userName)
     }
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
     ) {
         Column(modifier = Modifier.padding(it)) {
@@ -69,9 +75,9 @@ fun UserDetailRoute(userName: String, viewModel: UserDetailViewModel = hiltViewM
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun UserDetailCard(user: UserDetail) {
+private fun UserDetailCard(user: UserDetail, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
         Card(
@@ -86,89 +92,26 @@ private fun UserDetailCard(user: UserDetail) {
                     )
                     .fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
-                        colorFilter = ColorFilter.tint(Color.Gray),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier.padding(4.dp),
-                        text = stringResource(id = R.string.name)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        modifier = Modifier.basicMarquee(),
-                        text = user.name,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1
-                    )
-                }
-                Row(
-                    modifier = Modifier.padding(top = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_menu_book_24),
-                        colorFilter = ColorFilter.tint(Color.Gray),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier.padding(4.dp),
-                        text = stringResource(id = R.string.bio)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        modifier = Modifier.basicMarquee(),
-                        text = user.bio,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1
-                    )
-                }
-                Row(
-                    modifier = Modifier.padding(top = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_work_24),
-                        colorFilter = ColorFilter.tint(Color.Gray),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier.padding(4.dp),
-                        text = stringResource(id = R.string.company)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        modifier = Modifier.basicMarquee(),
-                        text = user.company,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1
-                    )
-                }
-                Row(
-                    modifier = Modifier.padding(top = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_location_on_24),
-                        colorFilter = ColorFilter.tint(Color.Gray),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier.padding(4.dp),
-                        text = stringResource(id = R.string.location)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        modifier = Modifier.basicMarquee(),
-                        text = user.location,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1
-                    )
-                }
+                UserDetailRow(
+                    key = R.string.name,
+                    value = user.name,
+                    iconRes = R.drawable.baseline_person_24
+                )
+                UserDetailRow(
+                    key = R.string.bio,
+                    value = user.bio,
+                    iconRes = R.drawable.baseline_menu_book_24
+                )
+                UserDetailRow(
+                    key = R.string.company,
+                    value = user.company,
+                    iconRes = R.drawable.baseline_work_24
+                )
+                UserDetailRow(
+                    key = R.string.location,
+                    value = user.location,
+                    iconRes = R.drawable.baseline_location_on_24
+                )
             }
         }
         Column(
@@ -207,6 +150,37 @@ private fun UserDetailCard(user: UserDetail) {
                 color = Color.Gray
             )
         }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun UserDetailRow(
+    @StringRes key: Int,
+    value: String,
+    @DrawableRes iconRes: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.padding(top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = painterResource(id = iconRes),
+            colorFilter = ColorFilter.tint(Color.Gray),
+            contentDescription = ""
+        )
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = stringResource(id = key)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            modifier = Modifier.basicMarquee(),
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 1
+        )
     }
 }
 

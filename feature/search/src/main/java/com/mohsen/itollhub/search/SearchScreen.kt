@@ -59,34 +59,26 @@ import coil.request.ImageRequest
 import com.mohsen.itollhub.designsystem.LoadingScreen
 import com.mohsen.itollhub.model.User
 
-@Composable
-fun SearchRoute(onItemClicked: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
-    val viewState by viewModel.state.collectAsStateWithLifecycle()
-    SearchScreen(viewState, onUserCardClicked = onItemClicked) {
-        viewModel.searchUser(it)
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SearchScreen(
-    viewState: SearchScreenState,
+fun SearchScreen(
     modifier: Modifier = Modifier,
-    onUserCardClicked: (String) -> Unit,
-    onSearchButtonClicked: (String) -> Unit
+    onItemClicked: (String) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
+    val viewState by viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            SearchBar(onSearchButtonClicked)
+            SearchBar { viewModel.searchUser(it) }
             with(viewState) {
                 if (users.isNotEmpty()) {
                     UsersList(
                         users = users,
                         listState = rememberLazyGridState(),
-                        onUserCardClicked = onUserCardClicked
+                        onUserCardClicked = onItemClicked
                     )
                 } else {
                     LoadingScreen(description = description, isLoading)
@@ -97,14 +89,13 @@ private fun SearchScreen(
     }
 }
 
-
 @Composable
-private fun SearchBar(onSearchButtonClicked: (String) -> Unit) {
+private fun SearchBar(modifier: Modifier = Modifier, onSearchButtonClicked: (String) -> Unit) {
     var searchQuery by remember {
         mutableStateOf(TextFieldValue(""))
     }
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -135,8 +126,8 @@ private fun SearchBar(onSearchButtonClicked: (String) -> Unit) {
 @Composable
 private fun UsersList(
     users: List<User>, listState: LazyGridState,
+    modifier: Modifier = Modifier,
     onUserCardClicked: (String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -156,8 +147,8 @@ private fun UsersList(
 @Composable
 private fun UserItem(
     user: User,
-    onUserCardClicked: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onUserCardClicked: (String) -> Unit
 ) {
     Card(
         modifier = modifier.clickable {
