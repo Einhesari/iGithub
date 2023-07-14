@@ -23,16 +23,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +42,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -61,16 +60,15 @@ import com.mohsen.itollhub.model.User
 
 @Composable
 fun SearchRoute(onItemClicked: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
-    val scaffoldState = rememberScaffoldState()
     val viewState by viewModel.state.collectAsStateWithLifecycle()
-    SearchScreen(scaffoldState = scaffoldState, viewState, onUserCardClicked = onItemClicked) {
+    SearchScreen(viewState, onUserCardClicked = onItemClicked) {
         viewModel.searchUser(it)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchScreen(
-    scaffoldState: ScaffoldState,
     viewState: SearchScreenState,
     modifier: Modifier = Modifier,
     onUserCardClicked: (String) -> Unit,
@@ -79,7 +77,6 @@ private fun SearchScreen(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
-        scaffoldState = scaffoldState
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             SearchBar(onSearchButtonClicked)
@@ -164,7 +161,7 @@ private fun UserItem(
         modifier = modifier.clickable {
             onUserCardClicked(user.userName)
         },
-        elevation = 4.dp,
+        elevation = CardDefaults.elevatedCardElevation(),
         shape = RoundedCornerShape(4.dp),
     ) {
         Column(
@@ -182,7 +179,7 @@ private fun UserItem(
                     .height(120.dp)
                     .padding(top = 16.dp, start = 8.dp, end = 8.dp)
                     .border(
-                        border = BorderStroke(2.dp, MaterialTheme.colors.onBackground), CircleShape
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground), CircleShape
                     )
                     .clip(CircleShape),
             )
@@ -198,7 +195,7 @@ private fun UserItem(
                     .padding(bottom = 8.dp)
                     .basicMarquee(),
                 text = user.userName,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
             )

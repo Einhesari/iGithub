@@ -17,10 +17,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,7 +65,7 @@ private fun UserDetailCard(user: UserDetail) {
     ) {
         Card(
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 64.dp),
-            elevation = 4.dp,
+            elevation = CardDefaults.elevatedCardElevation(),
             shape = RoundedCornerShape(4.dp),
         ) {
             Column(
@@ -90,7 +91,7 @@ private fun UserDetailCard(user: UserDetail) {
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = user.name,
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1
                     )
                 }
@@ -111,7 +112,7 @@ private fun UserDetailCard(user: UserDetail) {
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = user.bio,
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1
                     )
                 }
@@ -132,7 +133,7 @@ private fun UserDetailCard(user: UserDetail) {
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = user.company,
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1
                     )
                 }
@@ -153,7 +154,7 @@ private fun UserDetailCard(user: UserDetail) {
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = user.location,
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1
                     )
                 }
@@ -175,7 +176,7 @@ private fun UserDetailCard(user: UserDetail) {
                     .height(120.dp)
                     .padding(16.dp)
                     .border(
-                        border = BorderStroke(2.dp, MaterialTheme.colors.onBackground),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground),
                         CircleShape
                     )
                     .clip(CircleShape),
@@ -185,7 +186,7 @@ private fun UserDetailCard(user: UserDetail) {
                     .basicMarquee()
                     .padding(bottom = 8.dp),
                 text = "@${user.userName}",
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1
             )
             Divider(

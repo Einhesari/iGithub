@@ -47,7 +47,7 @@ dependencies {
     api(libs.compose.ui.ui)
     api(libs.compose.foundation)
     api(libs.androidx.activity.compose)
-    api(libs.compose.ui.material)
+    api(libs.material3)
     api(libs.compose.ui.tooling.preview)
     debugApi(libs.compose.ui.tooling)
     androidTestApi(libs.compose.ui.test)
